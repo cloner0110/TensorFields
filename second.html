@@ -1,11 +1,10 @@
-<!-- index.html -->
+<!-- second.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Registration</title>
+    <title>Event Registration - Second Page</title>
     <style>
         body {
             overflow: hidden;
@@ -23,19 +22,9 @@
             color: #000;
         }
 
-        #logo {
-            max-width: 300px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 4em;
-            font-family: 'JetBrains Mono';
-        }
-
-        p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
+        #event-picture {
+            max-width: 100%;
+            border: 2px solid #FF5733;
         }
 
         #registration-button {
@@ -61,10 +50,13 @@
 </head>
 <body>
 
-    <img src="images/Logo_profile_withoutBG.png" alt="Logo" id="logo">
-    <h1>TensorFields</h1>
+    <img src="images/openFoamAlchemist.jpeg" alt="Event Picture" id="event-picture">
 
+    <a href="https://www.eventbrite.ie/e/openfoam-alchemist-registration-743392596267?aff=oddtdtcreator" id="registration-button">Register</a>
 
-    <a href="second.html" id="registration-button">Events</a>
+    <script>
+        // Update browser history
+        history.pushState({ page: 'second' }, 'Event Registration - Second Page', 'second.html');
+    </script>
 </body>
 </html>
