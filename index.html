@@ -9,7 +9,7 @@
     <style>
         body {
             overflow: hidden;
-            background-image: url('images/desktop-1024x576.png');
+            background-image: url('images/cback2.png');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -20,9 +20,15 @@
             text-align: center;
             padding: 20px;
             font-family: 'Your Desired Font', Arial, sans-serif;
-            color: #000;
+            color: #080808;
         }
-
+        .background {
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            z-index: 0;
+          }
         #logo {
             max-width: 300px;
             margin-bottom: 20px;
@@ -63,8 +69,12 @@
 
     <img src="images/vectorLogo.png" alt="Logo" id="logo">
     <h1>TensorFields</h1>
+    <script src="path/to/particles.min.js"></script>
+    <canvas class="background"></canvas>
+  <script src="path/to/particles.min.js"></script>
 
 
     <a href="second.html" id="registration-button">Events</a>
+
 </body>
 </html>
