@@ -5,11 +5,11 @@
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Registration</title>
+    <title>TensorFields</title>
     <style>
         body {
+            background-color: rgb(3, 65, 53);
             overflow: hidden;
-            /* background-image: url('images/cback2.png'); */
             background-size: cover;
             background-position: center;
             display: flex;
@@ -32,6 +32,8 @@
         #logo {
             max-width: 300px;
             margin-bottom: 20px;
+            opacity: 2;
+
         }
 
         h1 {
@@ -47,7 +49,7 @@
         #registration-button {
             font-size: 1.5em;
             color: #dd39c2;
-            background-color: #fff;
+            background-color: rgb(3, 65, 53);
             text-decoration: none;
             border: 2px solid #dd39c2;
             padding: 10px 20px;
@@ -75,7 +77,25 @@
         window.onload = function() {
             Particles.init({
                 selector: '.background',
-                maxParticles: 450
+                color: '#dd39c2',
+                maxParticles: 200,
+                connectParticles: true,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        options: {
+                            maxParticles: 100,
+                            color: '#dd39c2'
+                        }
+                    },
+                    {
+                        breakpoint: 425,
+                        options: {
+                            maxParticles: 100,
+                            color: '#dd39c2'
+                        }
+                    }
+                ]
             });
         };
     </script>
