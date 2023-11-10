@@ -9,7 +9,7 @@
     <style>
         body {
             overflow: hidden;
-            background-image: url('images/cback2.png');
+            /* background-image: url('images/cback2.png'); */
             background-size: cover;
             background-position: center;
             display: flex;
@@ -66,15 +66,18 @@
     </style>
 </head>
 <body>
-
     <img src="images/vectorLogo.png" alt="Logo" id="logo">
     <h1>TensorFields</h1>
-    <script src="path/to/particles.min.js"></script>
     <canvas class="background"></canvas>
-  <script src="path/to/particles.min.js"></script>
-
-
     <a href="second.html" id="registration-button">Events</a>
-
+    <script src="particles.min.js"></script>
+    <script>
+        window.onload = function() {
+            Particles.init({
+                selector: '.background',
+                maxParticles: 450
+            });
+        };
+    </script>
 </body>
 </html>
