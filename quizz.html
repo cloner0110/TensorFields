@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .quiz-question {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .quiz-option {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .quiz-option:hover {
+            background-color: #f9f9f9;
+        }
+        .quiz-option.selected {
+            background-color: #cce5ff;
+            border-color: #66b0ff;
+        }
+        .quiz-option.correct {
+            background-color: #d4edda;
+            border-color: #8fd19e;
+        }
+        .quiz-option.wrong {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .show-answer-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .show-answer-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-question">What is the capital of France?</div>
+        <div class="quiz-option" onclick="selectOption(this)">A. Berlin</div>
+        <div class="quiz-option" onclick="selectOption(this)">B. Madrid</div>
+        <div class="quiz-option" onclick="selectOption(this)">C. Paris</div>
+        <div class="quiz-option" onclick="selectOption(this)">D. Rome</div>
+        <button class="show-answer-btn" onclick="showAnswer()">Show Answer!</button>
+    </div>
+
+    <script>
+        let selectedOption = null;
+
+        function selectOption(element) {
+            if (selectedOption) {
+                selectedOption.classList.remove('selected');
+            }
+            selectedOption = element;
+            selectedOption.classList.add('selected');
+        }
+
+        function showAnswer() {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+                if (option.innerText.includes("Paris")) {
+                    option.classList.add('correct');
+                } else {
+                    option.classList.add('wrong');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
