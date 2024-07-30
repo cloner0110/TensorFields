@@ -65,6 +65,26 @@
             background-color: #dd39c2;
             color: #fff;
         }
+
+        #quizz-button {
+            font-size: 1.5em;
+            color: #dd39c2;
+            background-color: rgb(155, 240, 223, 0.545);
+            text-decoration: none;
+            border: 2px solid #dd39c2;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            top: 20px;
+            right: 40px;
+        }
+
+        #quizz-button:hover {
+            background-color: #dd39c2;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -72,6 +92,7 @@
     <h1>TensorFields</h1>
     <canvas class="background"></canvas>
     <a href="second.html" id="registration-button">Events</a>
+    <a href="quizz.html" id="quizz-button">Quizz!</a>
     <script src="particles.min.js"></script>
     <script>
         window.onload = function() {
