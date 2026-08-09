@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Tensorfields | Computational Science Training & Products</title>
+  <meta name="description" content="Tensorfields: Computational Mechanics Training, Advanced Scientific Computing, and Products. OpenFOAM, C++, Custom Simulation Solutions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- 1. Add Schibsted Grotesk and IBM Plex Sans from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;800&family=IBM+Plex+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- inter left for legacy non-header text -->
+  <link href="https://fonts.googleapis.com/css2?family=inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --primary: #32108e;
+      --accent: #fa822a;
+      --bg: #f9fafe;
+      --text: #21222a;
+      --tab-inactive: #edeef6;
+      --tab-hover: #dbdff0;
+      --radius: 9px;
+      --shadow: 0 6px 32px rgba(50,16,142,0.10);
+    }
+    html,body {
+      margin: 0;
+      padding: 0;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      box-shadow: var(--shadow);
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--primary);
+    }
+    /* Add a main content box with white bg and vertical padding */
+    main {
+      background: #fff;
+      max-width: 1000px;
+      margin: 36px auto 36px auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding-top: 40px;
+      padding-bottom: 40px;
+      padding-left: 0;
+      padding-right: 0;
+      min-height: 600px;
+    }
+    /* Optionally, to add horizontal padding inside the white box for huge screens: */
+    @media (min-width: 800px) {
+      main {
+        padding-left: 44px;
+        padding-right: 44px;
+      }
+    }
+    /* The event-box already has its own padding, but now there's spacing above/below inside the main white rectangle.
+       If needed, you may slightly reduce .event-box top/bottom padding to avoid excessive space. */
+    .event-box {
+      /* original: padding-top: 36px; padding-bottom: 36px; ... */
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+  </style>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Tensorfields | Computational Science Training & Products</title>
+  <meta name="description" content="Tensorfields: Computational Mechanics Training, Advanced Scientific Computing, and Products. OpenFOAM, C++, Custom Simulation Solutions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- 1. Add Schibsted Grotesk and IBM Plex Sans from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;800&family=IBM+Plex+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- inter left for legacy non-header text -->
+  <link href="https://fonts.googleapis.com/css2?family=inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --primary: #32108e;
+      --accent: #fa822a;
+      --bg: #f9fafe;
+      --text: #21222a;
+      --tab-inactive: #edeef6;
+      --tab-hover: #dbdff0;
+      --radius: 9px;
+      --shadow: 0 6px 32px rgba(50,16,142,0.10);
+    }
+    html,body {
+      margin: 0;
+      padding: 0;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      box-shadow: var(--shadow);
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--primary);
+      letter-spacing: -2px;
+      display: flex;
+      align-items: center;
+      font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+      text-decoration: none;
+    }
+    .logo-img {
+      height: 32px;
+      vertical-align: middle;
+      margin-right: 9px;
+      display: inline-block;
+    }
+    nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .tab-btn {
+      background: var(--tab-inactive);
+      color: var(--primary);
+      border: none;
+      outline: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 8px 22px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin: 0 0;
+      letter-spacing: 0.5px;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .tab-btn.active,
+    .tab-btn:focus-visible,
+    .tab-btn:hover {
+      background: var(--tab-hover);
+      color: var(--primary);
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 32px auto 50px auto;
+      padding: 0 18px;
+      background: #fff;
+      border-radius: var(--radius);
+      min-height: 520px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      font-size: 1.08rem;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    section.tab-content {
+      display: none;
+      animation: fadein 0.35s;
+    }
+    section.tab-content.active {
+      display: block;
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(18px);}
+      to   { opacity: 1; transform: none;}
+    }
+    .hero {
+      padding: 52px 10px 27px 10px;
+      background: linear-gradient(96deg,#fff 77%,#e9e8fe 100%);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 2.3rem;
+      margin: 0 0 9px 0;
+      color: var(--primary);
+      font-weight: 800;
+      font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+      letter-spacing: -1.5px;
+      text-transform: capitalize;
+    }
+    .hero h1 span {
+      font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif !important;
+      text-transform: capitalize;
+    }
+    .hero .tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: var(--radius);
+      padding: 4px 16px;
+      margin-bottom: 14px;
+      letter-spacing: 0.7px;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-top: 0;
+      color: #494b62;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    .hero-cta {
+      margin-top: 18px;
+    }
+    .hero-cta button, .hero-cta a {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 10px 28px;
+      margin-right: 12px;
+      margin-bottom: 8px;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      transition: background 0.12s, box-shadow 0.12s;
+      box-shadow: 0 2px 16px rgba(50,16,142,0.08);
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .hero-cta button:hover, .hero-cta a:hover {
+      background: #5432c0;
+    }
+    .event-box {
+      border: 1px solid #e2e3ef;
+      background: #fafaff;
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-top: 19px;
+      max-width: 500px;
+      box-shadow: 0px 2px 8px rgba(50,16,142,0.06);
+    }
+    .event-box h3 {
+      margin: 2px 0 8px 0;
+      color: var(--primary);
+      font-size: 1.11rem;
+      font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .event-box .date {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 7px;
+      font-size: 1.05rem;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .event-box .desc {
+      color: #414362;
+      margin-bottom: 7px;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    .training-section {
+      margin-top: 32px;
+    }
+    .training-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+      margin-top: 16px;
+    }
+    .training-card {
+      background: #f5f6ff;
+      border: 1px solid #ebeaff;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 16px rgba(50,16,142,0.07);
+      padding: 22px 17px;
+      transition: box-shadow 0.15s, transform 0.09s;
+      min-height: 205px;
+    }
+    .training-card:hover {
+      box-shadow: 0 11px 32px rgba(50,16,142,0.14);
+      transform: translateY(-3px) scale(1.015);
+    }
+    .training-card .year-place,
+    .training-card .card-title {
+      margin: 0 0 4px 0;
+      font-weight: 600;
+      color: var(--primary);
+      font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .training-card .year-place {
+      font-size: 0.98rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: none;
+    }
+    .training-card .desc {
+      color: #383b55;
+      margin: 0 0 8px 0;
+      font-size: 0.99rem;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    .products-section {
+      margin: 28px 0 0 0;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 26px;
+      margin-top: 18px;
+    }
+    .product-card {
+      background: #fcfcff;
+      border-radius: var(--radius);
+      border: 1px solid #dfdfef;
+      padding: 22px 20px 18px 20px;
+      box-shadow: 0px 4px 18px rgba(50,16,142,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      transition: box-shadow 0.18s, transform 0.11s;
+    }
+    .product-card:hover {
+      box-shadow: 0px 11px 36px rgba(50,16,142,0.12);
+      transform: scale(1.013) translateY(-2px);
+    }
+    .product-card img {
+      max-width: 60px;
+      max-height: 60px;
+      margin-bottom: 8px;
+      border-radius: 7px;
+      background: #fff;
+      border: 1px solid #efefef;
+    }
+    .product-card .title {
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0 0 7px 0;
+      font-size: 1.08rem;
+      font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .product-card .desc {
+      color: #404065;
+      font-size: 0.97rem;
+      margin-bottom: 7px;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    .product-card .price {
+      color: var(--accent);
+      font-size: 1.02rem;
+      font-weight: 700;
+      margin: 0 0 7px 0;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    .product-card .stripe-buy {
+      margin-top: auto;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 8px 21px;
+      cursor: pointer;
+      transition: background 0.14s;
+      box-shadow: 0 2px 7px rgba(250,130,42,0.11);
+      text-decoration: none;
+      display: inline-block;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .product-card .stripe-buy:hover {
+      background: #d96705;
+    }
+    .register-container {
+      max-width: 580px;
+      margin: 30px auto;
+      background: #fbfcff;
+      border-radius: var(--radius);
+      border: 1px solid #e3e4ee;
+      box-shadow: 0 5px 32px rgba(50,16,142,0.09);
+      padding: 36px 34px 28px 34px;
+      animation: fadein 0.44s;
+    }
+    .register-title {
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 1.42rem;
+      text-align: center;
+      margin-bottom: 8px;
+      font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .register-desc {
+      text-align: center;
+      margin-bottom: 22px;
+      color: #414364;
+      font-size: 1.01rem;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    .reg-form label {
+      display: block;
+      font-weight: 600;
+      margin-top: 13px;
+      margin-bottom: 7px;
+      color: var(--primary);
+      font-size: 1.02rem;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .reg-form input, .reg-form select, .reg-form textarea {
+      width: 100%;
+      border: 1px solid #d7d7e6;
+      border-radius: var(--radius);
+      padding: 12px 10px;
+      font-size: 1rem;
+      background: #f6f7fc;
+      margin-bottom: 3px;
+      box-sizing: border-box;
+      transition: border 0.15s;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    .reg-form input:focus, .reg-form textarea:focus, .reg-form select:focus {
+      border-color: var(--primary);
+      outline: none;
+      background: #fff;
+    }
+    .reg-form button {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.09rem;
+      padding: 13px 0 12px 0;
+      border-radius: var(--radius);
+      margin-top: 22px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.16s;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      text-transform: capitalize;
+    }
+    .reg-form button:hover {
+      background: #5432c0;
+    }
+    .reg-success {
+      color: var(--accent);
+      text-align: center;
+      font-size: 1.14rem;
+      font-weight: 700;
+      margin-top: 20px;
+      display: none;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    @media (max-width: 700px){
+      .nav-container, main {
+        padding: 0 7px;
+      }
+      main { font-size: 0.98rem;}
+      .register-container {padding: 20px 6px;}
+    }
+    footer {
+      text-align: center;
+      padding: 23px 9px 17px 9px;
+      font-size: 0.99rem;
+      color: #5b5c86;
+      background: #f3f5fa;
+      border-top: 1px solid #e8eaf0;
+      margin-top: 0;
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+      font-weight: 800;
+      text-transform: capitalize;
+    }
+    a {
+      text-decoration: underline;
+      color: var(--primary);
+      transition: color 0.14s;
+      font-family: inherit;
+    }
+    a:hover { color: var(--accent);}
+  </style>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+<header>
+  <div class="nav-container">
+    <a href="#" class="logo">
+      <img class="logo-img" src="./images/vectorLogo.png" alt="Tensorfields Logo">
+      <span style="font-family: 'Schibsted Grotesk', 'IBM Plex Sans', 'Oswald', 'Impact', 'Arial Black', 'DejaVu Sans', Arial, sans-serif; font-weight: 900; letter-spacing: -2px; color: #32108e; text-transform: capitalize;">
+        TensorFields
+      </span>
+    </a>
+    <nav>
+      <button class="tab-btn active" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="trainings">Previous Trainings</button>
+      <button class="tab-btn" data-tab="products">Products</button>
+      <button class="tab-btn" data-tab="register">Event Registration</button>
+    </nav>
+  </div>
+</header>
+
+<main style="margin-top: 28px; margin-bottom: 28px;">
+  <section class="tab-content active" id="tab-home" style="margin-top: 18px; margin-bottom: 18px">
+    <div class="hero">
+      <span class="tag">Science + Software Training</span>
+      <h1>
+        <span style="display: block; font-weight: 900; color: #32108e; font-size: 2.05rem; font-family:'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;">
+          Computational Mechanics Developers
+          <span style="display: block; color: #fa822a; font-weight: bold; font-family:'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;">
+            OpenFOAM &amp; C++
+          </span>
+        </span>
+      </h1>
+      <p>
+        Welcome to Tensorfields. We offer hands-on training, custom tools, and advanced simulation services for fluid/solid mechanics, mostly by
+        OpenFOAM and C++.<br>
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="tab-link" data-tab="products">See Products</a>
+  
+        <a href="#" class="tab-link" data-tab="products">Book a Free Call!</a>
+        <a href="#" class="tab-link" data-tab="trainings">View Previous Trainings</a>
+        <a href="#" class="tab-link" data-tab="register">Register For Upcoming Event</a>
+      </div>
+    </div>
+    <div class="event-box" style="line-height: 1.7; margin-top: 10px; display: flex; flex-direction: column; justify-content: space-between; padding-top: 10px; padding-bottom: 0px;">
+      <div class="date" style="margin-bottom: 1.0em;">
+        <i class="fa-regular fa-calendar"></i> 01-22 September 2026 &middot; Online Worldwide
+      </div>
+      <h3 style="margin-bottom: 1.0em;">
+        ⚡ Upcoming Live Training:<br>
+        OpenFOAM Developer <span style="color: #fa822a; font-weight: bold;">Bootcamp</span>
+      <div class="hero-cta">
+        <a href="#" class="tab-link" data-tab="register"
+           style="
+                  color: #fff;
+                  background: linear-gradient(95deg,#6e35f1 60%, #fa822a 95%);
+                  box-shadow: 0 6px 28px 0 rgba(50,16,142,0.15);
+                  border: none;
+                  width: 90%;
+                  padding: 8px 22px;
+                  letter-spacing: 0.5px;
+                  cursor: pointer;
+                  transition: background 0.15s, transform 0.08s;
+                  font-family: 'Schibsted Grotesk', 'IBM Plex Sans', Arial, sans-serif;
+                  text-shadow: 0 2px 32px rgba(50,16,142,0.13);
+                  font-size: 1rem;
+                  font-weight: 600;
+                  border-radius: var(--radius);
+                  text-transform: capitalize;
+        ">
+        <span style="display: flex; justify-content: center; align-items: center; width: 100%;">
+          See Details &amp; Register!
+        </span>
+        </a >
+      </div>
+      </h3>
+  </div>
+  <div style="position: relative;
+  left: 0%; top: 0%; transform:
+  translateX(65%) translateY(-100%);
+  width: 1000px; height: 220px;">
+    <img 
+      src="./images/gallery.gif"
+      alt="OpenFOAM Workshop Wave Animation"
+      style="max-width: 920px; height: 220px; border-radius: 10px; display: block; position: relative; z-index: 2;"
+    >
+  </div>
+  </section>
+  <div style="height: 0; margin-bottom: -220px;"></div>
+
+  <section class="tab-content" id="tab-trainings">
+    <h2>Previous Trainings & Workshops</h2>
+    <div class="training-section">
+      <div class="training-grid">
+        <div class="training-card">
+          <div class="year-place">2026 · Guimarães</div>
+          <div class="card-title">OpenFOAM Developer Training, No Fluff!</div>
+          <div class="desc">
+            Advanced solver and dynamic mesh techniques for OpenFOAM. Practical C++ labs. ALE and field remapping.
+          </div>
+        </div>
+        <div class="training-card">
+          <div class="year-place">2025 · Vienna</div>
+          <div class="card-title">OpenFOAM Catalyst: How To Solve Any PDE...</div>
+          <div class="desc">
+            Extended workshop at OpenFOAM Workshop, with focus on custom PDEs, mesh manipulation, and workflow automation in C++.
+          </div>
+        </div>
+        <div class="training-card">
+          <div class="year-place">2024 · Beijing</div>
+          <div class="card-title">Solids4foam Alchemist (FSI, Multiphase)</div>
+          <div class="desc">
+            Deep-dive session on FSI and multiphase solvers using Solids4foam. Advanced field mapping and best coding practices.
+          </div>
+        </div>
+        <div class="training-card">
+          <div class="year-place">2017–2020 · Iran</div>
+          <div class="card-title">Best Practices In OpenFOAM</div>
+          <div class="desc">
+            Series of foundational + advanced OpenFOAM trainings; field handling, ODE/PDE solvers, workshop-oriented.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-content" id="tab-products">
+    <div style="margin-top: 48px;">
+      <h2>Products: Custom Codes & Utilities</h2>
+      <p>Our digital tools enable fast, reliable simulation, field transfer, mesh generation/analysis, and OpenFOAM-based research.</p>
+    </div>
+    <div class="products-section" style="overflow-x: auto; overflow-y: visible; padding-bottom: 24px;">
+      <div class="products-grid" style="min-width: 340px; flex-wrap: wrap; align-items: flex-start;">
+        <div class="product-card" style="min-width:310px; max-width:340px; margin-top: 140px;">
+ 
+          <img src="images/pipeFlow.jpg" alt="OpenFOAM Alchemist" style="width: 100%; max-width:340px; height: auto; ">
+    
+    
+   
+          <div class="title">OpenFOAM Alchemist</div>
+          <div class="desc">
+            OpenFOAM User Training
+          <!--A computational fluid dynamics and solid mechanics workshop.
+           Get ready to unleash your inner superhero as we dive into the magical 
+           world of OpenFOAM, turning beginners into alchemists!-->
+          </div>
+          <div class="price">€99</div>
+          <div style="display: flex; gap: 12px;">
+            <a class="stripe-buy" href="#" data-product="minifoam">Buy Via Stripe</a>
+            <a class="stripe-buy" href="#" data-product="minifoam">See Details</a>
+          </div>
+ 
+        </div>
+        <div class="product-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/3202/3202926.png" alt="Field Remapper">
+          <div class="title">Field Remapper Pro</div>
+          <div class="desc">High-order field mapping tool for ALE/FSI/CSD in OpenFOAM (stand-alone, with Python API).</div>
+          <div class="price">€129</div>
+          <a class="stripe-buy" href="#" data-product="fieldremapper">Buy Via Stripe</a>
+        </div>
+        <div class="product-card">
+          <img src="https://cdn-icons-png.flaticon.com/512/1839/1839065.png" alt="Meshgenpro">
+          <div class="title">Meshgenpro</div>
+          <div class="desc">Generate advanced meshes (structured/unstructured) for scientific computing. Suited for finite element/difference research.</div>
+          <div class="price">€70</div>
+          <a class="stripe-buy" href="#" data-product="meshgenpro">Buy Via Stripe</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin:28px 0 0 0; font-size:0.98rem;">
+      <i class="fa-solid fa-lock"></i> All transactions are handled securely by Stripe. <br>
+      Need a trial or multi-user deal? <a href="mailto:alishayegh@proton.me">Contact Us</a>.
+    </div>
+  </section>
+
+  <section class="tab-content" id="tab-register">
+    <div class="register-container">
+      <div class="register-title"><i class="fa-regular fa-calendar-check"></i> Register For Upcoming Training</div>
+      <div class="register-desc">
+        Sign up for <strong>OpenFOAM Developer "No Fluff!" Workshop — 14 October 2024</strong><br>
+        Seats are limited. <span style="color:#fa822a;">Free for eligible students!</span> <br>
+        (Fields marked * are required.)
+      </div>
+      <form class="reg-form" id="eventregform">
+        <label for="fullname">Full Name *</label>
+        <input type="text" name="fullname" id="fullname" required placeholder="Your name">
+
+        <label for="email">Email Address *</label>
+        <input type="email" name="email" id="email" required placeholder="you@email.com">
+
+        <label for="affiliation">Affiliation / Company *</label>
+        <input type="text" name="affiliation" id="affiliation" required placeholder="University/Company">
+
+        <label for="country">Country *</label>
+        <select name="country" id="country" required>
+          <option value="">Select Country</option>
+          <option>Austria</option>
+          <option>China</option>
+          <option>Iran</option>
+          <option>Ireland</option>
+          <option>Belgium</option>
+          <option>UK</option>
+          <option>USA</option>
+          <option>Other</option>
+        </select>
+
+        <label for="about">Short Research Interest Or Note</label>
+        <textarea id="about" name="about" rows="2" placeholder="Tell us what you hope to learn!"></textarea>
+
+        <label for="attend-type">Attendance Type *</label>
+        <select name="attend-type" id="attend-type" required>
+          <option value="">Select</option>
+          <option>Standard Ticket</option>
+          <option>Student (Apply For Free Seat)</option>
+        </select>
+
+        <button type="submit">Submit Registration</button>
+      </form>
+      <div class="reg-success" id="regsuccessmsg">
+        Thank you for registering! You'll get a confirmation email shortly.<br>
+        (For urgent queries, email <a href="mailto:alishayegh@proton.me">alishayegh@proton.me</a>)
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 2024 Tensorfields. All rights reserved.
+  <br>
+  <span>
+    Questions? <a href="mailto:alishayegh@proton.me">Contact Us</a> &middot;
+    <a href="#" id="hosting-info-link">How To Run/Host This Website?</a>
+  </span>
+</footer>
+
+<div id="modal-run-site" style="display:none; 
+  position:fixed; top:0; left:0; right:0; bottom:0; 
+  z-index:9999; background:rgba(40,26,82,0.29);">
+  <div style="
+    max-width:440px; margin:60px auto; background:#fff; 
+    border-radius:10px; box-shadow:0 10px 70px rgba(44,22,162,0.33);
+    padding:32px 24px 20px 24px; position:relative;">
+    <button id="close-modal-btn" style="
+      background:none; border:none; font-size:1.65rem; 
+      position:absolute; right:10px; top:4px; color:#aaa; cursor:pointer;">&times;</button>
+    <h2 style="color:var(--primary);font-family:'Schibsted Grotesk','IBM Plex Sans',Arial,sans-serif;">Run This Website Locally</h2>
+    <div style="font-size:1.09rem;line-height:1.47; font-family:'IBM Plex Sans',Arial,sans-serif;">
+      1. Download all files (this HTML and required assets).<br>
+      2. Double-click this <b>home.html</b> file to open in your browser! No server is required for most features.<br>
+      3. For Stripe product sales to work, you must:<br>
+      <ul>
+        <li>Set up a <b>Stripe</b> account and connect products; insert your <b>Stripe publishable key</b> in the code (see "<code>stripe.js</code>")</li>
+        <li>For production: deploy to a static host like GitHub Pages, Netlify, or <a target="_blank" rel="noopener" href="https://vercel.com/">Vercel</a>.<br>
+          For ultra-safe and free hosting, we recommend <a target="_blank" rel="noopener" href="https://pages.github.com/">GitHub Pages</a>.
+        </li>
+        <li>For registration forms: email delivery etc. needs a backend (try Google Forms, Formspree, or Zoho).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  // SPA tabs & navigation
+  function switchtab(tab){
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelector(`.tab-btn[data-tab="${tab}"]`)?.classList.add('active');
+    document.getElementById('tab-'+tab)?.classList.add('active');
+    window.scrollTo({top:0,behavior:'auto'});
+  }
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      switchtab(btn.getAttribute('data-tab'));
+    });
+  });
+  document.querySelectorAll('.tab-link').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const tab = btn.getAttribute('data-tab');
+      if (tab) switchtab(tab);
+    });
+  });
+
+  // Event registration form (ajax-mock)
+  document.getElementById('eventregform').addEventListener('submit', function(e){
+    e.preventDefault();
+    // In production: send via ajax/backend service like Formspree/Zoho
+    this.style.opacity='0.6';
+    setTimeout(()=>{
+      this.style.display='none';
+      document.getElementById('regsuccessmsg').style.display='block';
+    }, 1100);
+  });
+
+  // Stripe product handling (demo)
+  const stripePublicKey = 'pk_test_12345'; // Replace with your own Stripe PK
+  const productCheckoutUrls = {
+    minifoam: "https://buy.stripe.com/test_xxx1", 
+    fieldremapper: "https://buy.stripe.com/test_xxx2",
+    meshgenpro: "https://buy.stripe.com/test_xxx3"
+  };
+  document.querySelectorAll('.stripe-buy').forEach(btn => {
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      const product = btn.getAttribute('data-product');
+      // For real use, set up stripe checkout session!
+      if (productCheckoutUrls[product]){
+        window.open(productCheckoutUrls[product],'_blank');
+      } else {
+        alert('Integration demo: please set up Stripe checkout URL for this product.');
+      }
+    });
+  });
+
+  // Modal for "how to run"
+  document.getElementById('hosting-info-link').onclick = function(e){
+    e.preventDefault();
+    document.getElementById('modal-run-site').style.display = 'block';
+  };
+  document.getElementById('close-modal-btn').onclick = function(e){
+    document.getElementById('modal-run-site').style.display = 'none';
+  };
+
+  // For direct-to-email event signups (no backend): use e.g. Formspree, Google Forms, or Zoho Forms and replace #eventregform with that embed.
+</script>

@@ -1,0 +1,8 @@
+_site/
+.DS_Store
+*.log
+*.aux
+*.bbl
+*.blg
+*.out
+*.ist
